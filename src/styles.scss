@@ -1,0 +1,67 @@
+* {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 11pt;
+}
+
+form {
+  max-width: 720px;
+  margin: auto
+}
+
+section {
+  margin-top: 2ex;
+}
+
+.field {
+  display: flex;
+  align-content: center;
+  box-sizing: border-box;
+  flex-direction: row;
+  margin-bottom: 1ex;
+  
+  label, select, input, > div {
+    flex: 1;
+  }
+
+  input {
+    padding-left: 0.5em;
+    margin-left: 0.5em;
+  }
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    > * {
+      flex: 1
+    }
+    > div {
+      display: flex;
+    }
+    > div > * {
+       flex: 1
+    }
+  }
+
+  select, input {
+    border: solid 1px #ddd;
+    border-radius: 1ex;
+  }
+}
+
+fieldset {
+  margin-top: 2ex;
+}
+
+div.indent-1 {
+  margin-left: 2em;
+  margin-top: 1ex;
+  margin-bottom: 2ex;
+}
+
+div.space-top {
+  margin-top: 1ex
+}
+
+label.space-left {
+  margin-left: 1em;
+}
