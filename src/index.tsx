@@ -83,7 +83,7 @@ function App() {
             fileReader.readAsText(fileToLoad, "UTF-8");
           }}
         />
-        <label htmlFor="load_file">Load</label>
+        <label htmlFor="load_file">Open from Disk</label>
       </section>
       <h1>Connection Profile</h1>
       <fieldset>

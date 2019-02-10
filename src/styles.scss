@@ -99,7 +99,6 @@ fieldset {
       top:0;
       left: 5px;
       width: calc(100% - 5px);
-      // width: 130px;
       transform: skewX(-15deg);
     }
     &:after{
@@ -119,33 +118,33 @@ fieldset {
       legend {
         width: 120px;
         position: relative;
-        background: #ededed;
+        // background: #ededed;
         
         &:before{
-          // content: "";
-          // background: #ededed;
-          // height: 100%;
-          // display: block;
-          // position: absolute;
-          // z-index: -1;
-          // top:0;
-          // left: 0px;
-          // width: calc(100% - 5px);
-          // transform: skewX(15deg);
-          display: none;
+          content: "";
+          background: #ededed;
+          height: 100%;
+          display: block;
+          position: absolute;
+          z-index: -1;
+          top:0;
+          right: 0px;
+          width: calc(100% - 5px);
+          transform: skewX(0deg);
+          // display: none;
         }
         &:after{
-          // content: "";
-          // background: #ededed;
-          // height: 100%;
-          // display: block;
-          // position: absolute;
-          // z-index: -1;
-          // top:0;
-          // left: 15px;
-          // right: -10px;
-          // width: calc(100% - 15px);
-          display: none;
+          content: "";
+          background: #ededed;
+          height: 100%;
+          display: block;
+          position: absolute;
+          z-index: -1;
+          top:0;
+          right: 5px;
+          width: calc(100% - 5px);
+          transform: skewX(-15deg);
+          // display: none;
         } 
       }
     }
