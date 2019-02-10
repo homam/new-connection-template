@@ -5,7 +5,10 @@
   "keywords": [],
   "main": "src/index.tsx",
   "dependencies": {
+    "@types/file-saver": "2.0.0",
     "@types/pako": "1.0.0",
+    "countries-list": "2.4.2",
+    "file-saver": "2.0.0",
     "fp-ts": "1.13.0",
     "io-ts": "1.8.1",
     "io-ts-types": "0.4.2",

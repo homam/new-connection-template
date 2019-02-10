@@ -84,8 +84,8 @@ export default function MNOTariffsComponent({
         />
       ) : (
         operators.map(o => (
-          <div className="indent-1" key={o}>
-            <h3>{o}</h3>
+          <fieldset className="indent-1" key={o}>
+            <legend align="right">{o}</legend>
             <ServicesTariffsComponent
               services={services}
               tariffs={tariffs.value[o]}
@@ -96,7 +96,7 @@ export default function MNOTariffsComponent({
                 })
               }
             />
-          </div>
+          </fieldset>
         ))
       )}
     </div>

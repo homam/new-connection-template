@@ -232,7 +232,7 @@ function FlowsDescription({
           {!!flow.flowTypes.Complicated ? (
             <div className="indent-1">
               <textarea
-                cols={80}
+                cols={60}
                 rows={3}
                 value={flow.flowTypes.Complicated.value}
                 onChange={ev =>
@@ -319,8 +319,8 @@ export default function FlowsComponent({
         />
       ) : (
         operators.map(o => (
-          <section key={o}>
-            <h3>{o}</h3>
+          <fieldset key={o}>
+            <legend align="right">{o}</legend>
             <FlowsDescription
               flow={(flows.value || {})[o] || defaultFlow}
               onChange={flow =>
@@ -330,7 +330,7 @@ export default function FlowsComponent({
                 })
               }
             />
-          </section>
+          </fieldset>
         ))
       )}
     </fieldset>
