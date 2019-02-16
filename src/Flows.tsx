@@ -31,13 +31,15 @@ function FlowsDescription({
                   : ({
                       tag: ev.target.value,
                       value:
-                        flow.hosting.tag != "FullyHostedByUs"
+                        flow.hosting.tag != "FullyHostedByUs" &&
+                        flow.hosting.tag != "Nothing"
                           ? flow.hosting.value
                           : "NotAtAll"
                     } as FlowHosting)
             })
           }
         >
+          <option value="Nothing">-</option>
           <option value="FullyHostedByUs">Fully hosted by us</option>
           <option value="PartiallyHostedByUs">Partially hosted by us</option>
           <option value="FullyHostedByGateway">Fully hosted by Gateway</option>
@@ -47,7 +49,9 @@ function FlowsDescription({
           </option>
         </select>
       </section>
-      {!!flow && flow.hosting.tag != "FullyHostedByUs" ? (
+      {!!flow &&
+      flow.hosting.tag != "Nothing" &&
+      flow.hosting.tag != "FullyHostedByUs" ? (
         <div className="indent-1">
           <select
             value={flow.hosting.value}
@@ -61,6 +65,7 @@ function FlowsDescription({
               })
             }
           >
+            <option value="Nothing">-</option>
             <option value="NotAtAll">
               Consent page is not customizable (like Axiata)
             </option>
@@ -265,62 +270,87 @@ export default function FlowsComponent({
   setFlows: (flows: Flows) => void;
   operators: string[];
 }) {
+  console.log(flows);
   return (
     <fieldset>
       <legend>Flows</legend>
       <section>
-        <label>
-          <input
-            checked={flows.tag == "AllMNOsHaveTheSameFlow"}
-            onChange={ev =>
-              ev.target.checked
-                ? setFlows({
-                    tag: "AllMNOsHaveTheSameFlow",
-                    value:
-                      flows.tag == "SomeMNOsHaveDifferentFlows"
-                        ? flows.value[operators[0]] || defaultFlow
-                        : defaultFlow
-                  })
-                : null
-            }
-            name="mno_flows"
-            type="radio"
-          />
-          All MNOs have the same flow
-        </label>
-        <label className="space-left">
-          <input
-            checked={flows.tag == "SomeMNOsHaveDifferentFlows"}
-            onChange={ev =>
-              ev.target.checked
-                ? setFlows({
-                    tag: "SomeMNOsHaveDifferentFlows",
-                    value: operators
-                      .map(o => ({
-                        [o]:
-                          flows.tag == "AllMNOsHaveTheSameFlow"
-                            ? flows.value
-                            : defaultFlow
-                      }))
-                      .reduce((acc, a) => ({ ...acc, ...a }), {}) as IHash<Flow>
-                  })
-                : null
-            }
-            name="mno_flows"
-            type="radio"
-          />
-          Some MNOs have different flows
-        </label>
+        <div>
+          <label>
+            <input
+              checked={flows.tag == "Nothing"}
+              onChange={ev =>
+                ev.target.checked
+                  ? setFlows({
+                      tag: "Nothing"
+                    })
+                  : null
+              }
+              name="mno_flows"
+              type="radio"
+            />
+            Undefined
+          </label>
+        </div>
+        <div>
+          <label>
+            <input
+              checked={flows.tag == "AllMNOsHaveTheSameFlow"}
+              onChange={ev =>
+                ev.target.checked
+                  ? setFlows({
+                      tag: "AllMNOsHaveTheSameFlow",
+                      value:
+                        flows.tag == "SomeMNOsHaveDifferentFlows"
+                          ? flows.value[operators[0]] || defaultFlow
+                          : defaultFlow
+                    })
+                  : null
+              }
+              name="mno_flows"
+              type="radio"
+            />
+            All MNOs have the same flow
+          </label>
+        </div>
+        <div>
+          <label>
+            <input
+              checked={flows.tag == "SomeMNOsHaveDifferentFlows"}
+              onChange={ev =>
+                ev.target.checked
+                  ? setFlows({
+                      tag: "SomeMNOsHaveDifferentFlows",
+                      value: operators
+                        .map(o => ({
+                          [o]:
+                            flows.tag == "AllMNOsHaveTheSameFlow"
+                              ? flows.value
+                              : defaultFlow
+                        }))
+                        .reduce((acc, a) => ({ ...acc, ...a }), {}) as IHash<
+                        Flow
+                      >
+                    })
+                  : null
+              }
+              name="mno_flows"
+              type="radio"
+            />
+            Some MNOs have different flows
+          </label>
+        </div>
       </section>
       {flows.tag == "AllMNOsHaveTheSameFlow" ? (
         <FlowsDescription
           flow={flows.value}
           onChange={value => setFlows({ tag: "AllMNOsHaveTheSameFlow", value })}
         />
-      ) : (
+      ) : flows.tag == "SomeMNOsHaveDifferentFlows" ? (
         operators.map(o => (
           <fieldset key={o}>
             <legend align="right">{o}</legend>
+
             <FlowsDescription
               flow={(flows.value || {})[o] || defaultFlow}
               onChange={flow =>
@@ -332,7 +362,7 @@ export default function FlowsComponent({
             />
           </fieldset>
         ))
-      )}
+      ) : null}
     </fieldset>
   );
 }

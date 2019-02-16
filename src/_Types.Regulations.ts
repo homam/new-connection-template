@@ -1,10 +1,20 @@
 export type WelcomeMessage =
+  | { tag: "Undefined" }
   | { tag: "ByUs" }
   | { tag: "ByGatewayOrMNO"; customizable: boolean }
   | { tag: "NotRequired" };
-export type LandingPageApproval = "NotNeeded" | "OneWeek" | "MoreThanOneWeek";
-export type MarketRegulationCondition = "Strict" | "Mild" | "Unregulated";
+export type LandingPageApproval =
+  | "Undefined"
+  | "NotNeeded"
+  | "OneWeek"
+  | "MoreThanOneWeek";
+export type MarketRegulationCondition =
+  | "Undefined"
+  | "Strict"
+  | "Mild"
+  | "Unregulated";
 export type ServiceApproval =
+  | { tag: "Undefined" }
   | { tag: "OK" }
   | { tag: "Difficult"; value: string };
 export type Regulations = {
@@ -16,10 +26,10 @@ export type Regulations = {
   moreInfo: string | null;
 };
 export const defaultRegulations: Regulations = {
-  marketCondition: "Mild",
-  landingPageApprival: "OneWeek",
-  serviceApproval: { tag: "OK" },
-  welcomeMessage: { tag: "ByGatewayOrMNO", customizable: false },
-  reminderMessages: { tag: "NotRequired" },
+  marketCondition: "Undefined",
+  landingPageApprival: "Undefined",
+  serviceApproval: { tag: "Undefined" },
+  welcomeMessage: { tag: "Undefined" },
+  reminderMessages: { tag: "Undefined" },
   moreInfo: null
 };

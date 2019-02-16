@@ -23,9 +23,11 @@ export default function PaymentsComponent({
               })
             }
           >
-            {[75, 65, 55, 45, 35, 0].map(p => (
+            {["Undefined", 75, 65, 55, 45, 35, 0].map(p => (
               <option value={p} key={p.toString()}>
-                {p == 75
+                {p == "Undefined"
+                  ? "-"
+                  : p == 75
                   ? "~ 75% or More"
                   : p == 0
                   ? "~ 30% or Less"
@@ -47,9 +49,11 @@ export default function PaymentsComponent({
               })
             }
           >
-            {[120, 90, 60].map(p => (
+            {["Undefined", 120, 90, 60].map(p => (
               <option value={p} key={p.toString()}>
-                {p == 120
+                {p == "Undefined"
+                  ? "-"
+                  : p == 120
                   ? "4 Months or More"
                   : p == 60
                   ? "2 Months or Less"

@@ -6,13 +6,19 @@ export type MandatedBillingTariffLevel =
   | "Premium"
   | "LowerThanCompetitors";
 export type BillingNotifications = {
-  realTimeOrDelayed: "RealTime" | "Delayed";
-  visibility: "SuccessOnly" | "BothSuccessFailure" | "NoUsefulNotofications";
+  realTimeOrDelayed: "Undefined" | "RealTime" | "Delayed";
+  visibility:
+    | "Undefined"
+    | "SuccessOnly"
+    | "BothSuccessFailure"
+    | "NoUsefulNotofications";
 };
 export type BillingsManagement =
+  | { tag: "Undefined" }
   | { tag: "FullyByUs" }
   | { tag: "ByGatewayOrMNO"; value: BillingNotifications };
 export type BillingFrequency =
+  | "Undefined"
   | "OneOff"
   | "Daily"
   | "FewTimesAWeek"
@@ -20,15 +26,20 @@ export type BillingFrequency =
   | "Monthly";
 export type Tariff = {
   amount:
+    | { tag: "Undefined" }
     | { tag: "UpToUs" }
     | {
         tag: "Mandated";
         value: { level: MandatedBillingTariffLevel; amount: string };
       };
   frequency: BillingFrequency;
-  retry: { tag: false } | { tag: true; scaleDown: boolean };
+  retry:
+    | { tag: "Undefined" }
+    | { tag: false }
+    | { tag: true; scaleDown: boolean };
 };
 export type Tariffs =
+  | { tag: "Undefined" }
   | { tag: "AllServicesHaveSimilarTariffs"; value: Tariff }
   | {
       tag: "SomeServicesHaveDifferentTariffs";
@@ -36,40 +47,39 @@ export type Tariffs =
     };
 
 export const defaultTariff: Tariff = {
-  frequency: "Daily",
+  frequency: "Undefined",
   amount: {
-    tag: "Mandated",
-    value: { level: "MarketStandard", amount: "... USD" }
+    tag: "Undefined"
+    // value: { level: "MarketStandard", amount: "... USD" }
   },
-  retry: { tag: true, scaleDown: false }
+  retry: { tag: "Undefined" }
 };
 
 export const defaultTariffs: Tariffs = {
-  tag: "AllServicesHaveSimilarTariffs",
-  value: defaultTariff
+  tag: "Undefined"
 };
 
 export type MNOTariffs =
+  | { tag: "Undefined" }
   | { tag: "AllMNOsHaveSimilarTariffs"; value: Tariffs }
   | { tag: "SomeMNOsHaveDifferentTariffs"; value: IHash<Tariffs> };
 
 export type Billings = {
   basics: {
     management: BillingsManagement;
-    billingType: "PSMS" | "DCB";
+    billingType: "Undefined" | "PSMS" | "DCB";
   };
   tariffs: MNOTariffs;
 };
 
-export const defaultBasicsManagedByGateway: BillingsManagement = {
-  tag: "ByGatewayOrMNO",
-  value: { realTimeOrDelayed: "RealTime", visibility: "SuccessOnly" }
+export const defaultBasicsManagement: BillingsManagement = {
+  tag: "Undefined"
 };
 
 export const defaultBillings: Billings = {
   basics: {
-    billingType: "DCB",
-    management: defaultBasicsManagedByGateway
+    billingType: "Undefined",
+    management: defaultBasicsManagement
   },
-  tariffs: { tag: "AllMNOsHaveSimilarTariffs", value: defaultTariffs }
+  tariffs: { tag: "Undefined" }
 };

@@ -71,6 +71,8 @@ function App() {
 
   const [message, setMessage] = React.useState(null);
 
+  console.log(state);
+
   return (
     <form
       className="App"

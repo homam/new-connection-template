@@ -10,6 +10,7 @@ import {
   BillingFrequency
 } from "./_Types.Billings";
 import Field from "./Field";
+import Switcher from "./Switcher";
 
 export default function ServicesTariffsComponent({
   tariffs,
@@ -34,7 +35,9 @@ export default function ServicesTariffsComponent({
                     value:
                       tariffs.tag == "AllServicesHaveSimilarTariffs"
                         ? tariffs.value
-                        : tariffs.value[services[0]] || defaultTariff
+                        : (tariffs.tag == "SomeServicesHaveDifferentTariffs"
+                            ? tariffs.value[services[0]]
+                            : null) || defaultTariff
                   })
                 : null
             }
@@ -57,7 +60,14 @@ export default function ServicesTariffsComponent({
                               (acc, a) => ({ ...acc, ...a }),
                               {}
                             ) as IHash<Tariff>)
-                        : tariffs.value
+                        : tariffs.tag == "SomeServicesHaveDifferentTariffs"
+                        ? tariffs.value
+                        : (services
+                            .map(s => ({ [s]: defaultTariff }))
+                            .reduce(
+                              (acc, a) => ({ ...acc, ...a }),
+                              {}
+                            ) as IHash<Tariff>)
                   })
                 : null
             }
@@ -75,7 +85,7 @@ export default function ServicesTariffsComponent({
             })
           }
         />
-      ) : (
+      ) : tariffs.tag == "SomeServicesHaveDifferentTariffs" ? (
         services.map((s, i) => (
           <div className="indent-1" key={s}>
             <div>
@@ -83,7 +93,11 @@ export default function ServicesTariffsComponent({
             </div>
             <div className="indent-1">
               <TariffComponent
-                tariff={tariffs.value[s] || defaultTariff}
+                tariff={
+                  !!tariffs.value
+                    ? tariffs.value[s] || defaultTariff
+                    : defaultTariff
+                }
                 onChange={tariff =>
                   onChange({
                     ...tariffs,
@@ -94,7 +108,7 @@ export default function ServicesTariffsComponent({
             </div>
           </div>
         ))
-      )}
+      ) : null}
     </div>
   );
 }
@@ -210,6 +224,7 @@ function TariffComponent({
             })
           }
         >
+          <option value="Undefined">-</option>
           <option value="OneOff">One-off</option>
           <option value="Daily">Daily</option>
           <option value="FewTimesAWeek">A few times per week</option>
@@ -218,41 +233,53 @@ function TariffComponent({
         </select>
       </section>
       <section>
-        <label>
-          <input
-            type="checkbox"
-            checked={tariff.retry.tag}
-            onChange={ev =>
+        <div>
+          <Switcher
+            value={
+              tariff.retry.tag == "Undefined"
+                ? "Undefined"
+                : tariff.retry.tag
+                ? "On"
+                : "Off"
+            }
+            onChange={v =>
               onChange({
                 ...tariff,
-                retry: ev.target.checked
-                  ? { tag: true, scaleDown: false }
-                  : { tag: false }
+                retry:
+                  v == "Undefined"
+                    ? { tag: "Undefined" }
+                    : v == "On"
+                    ? { tag: true, scaleDown: false }
+                    : { tag: false }
               })
             }
-          />{" "}
-          With re-tries
-          {tariff.retry.tag ? (
-            <div className="indent-1">
-              <select
-                value={tariff.retry.scaleDown.toString()}
-                onChange={ev =>
-                  onChange({
-                    ...tariff,
-                    retry: tariff.retry.tag
-                      ? { tag: true, scaleDown: ev.target.value == "true" }
-                      : { tag: false }
-                  })
-                }
-              >
-                <option value="false">
-                  Without Scale-down (micro) billing
-                </option>
-                <option value="true">With Scale-down (micro) billing</option>
-              </select>
-            </div>
-          ) : null}
-        </label>
+            map={v =>
+              v == "On"
+                ? "With re-tries"
+                : v == "Off"
+                ? "Without re-tries"
+                : "Re-try rules are not known"
+            }
+          />
+        </div>
+        {true === tariff.retry.tag ? (
+          <div className="indent-1">
+            <select
+              value={tariff.retry.scaleDown.toString()}
+              onChange={ev =>
+                onChange({
+                  ...tariff,
+                  retry: tariff.retry.tag
+                    ? { tag: true, scaleDown: ev.target.value == "true" }
+                    : { tag: false }
+                })
+              }
+            >
+              <option value="false">Without Scale-down (micro) billing</option>
+              <option value="true">With Scale-down (micro) billing</option>
+            </select>
+          </div>
+        ) : null}
       </section>
     </div>
   );

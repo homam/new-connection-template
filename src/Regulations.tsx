@@ -114,6 +114,7 @@ export default function RegulationsComponent({
             })
           }
         >
+          <option value="Undefined">-</option>
           <option value="NotNeeded">
             Landing Page Approval is Not Required
           </option>
@@ -184,11 +185,12 @@ function Messages({
                     customizable: false
                   }
                 : ({
-                    tag: ev.target.value as "ByUs" | "NotRequired"
+                    tag: ev.target.value as "ByUs" | "NotRequired" | "Undefined"
                   } as WelcomeMessage)
             )
           }
         >
+          <option value="Undefined">-</option>
           <option value="ByUs">We send the {type} Messages</option>
           <option value="ByGatewayOrMNO">
             Gateway or MNO sends the {type} Messages

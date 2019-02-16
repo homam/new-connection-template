@@ -2,7 +2,7 @@ import { IHash } from "./_Types.IHash";
 import { TaggedUnionMember } from "typelevel-ts";
 import { Billings, defaultBillings } from "./_Types.Billings";
 import * as BILLINGS from "./_Types.Billings";
-import { Flows, defaultFlow } from "./_Types.Flows";
+import { Flows, defaultFlow, defaultFlows } from "./_Types.Flows";
 import * as FLOWS from "./_Types.Billings";
 import { Regulations, defaultRegulations } from "./_Types.Regulations";
 import * as REGULATIONS from "./_Types.Regulations";
@@ -42,7 +42,7 @@ export const defaultState: FormState = {
   gateway: "",
   operators: [{ name: "", marketShare: 10 }],
   services: [{ name: "Service 1" }],
-  flows: { tag: "AllMNOsHaveTheSameFlow", value: defaultFlow },
+  flows: defaultFlows,
   billings: defaultBillings,
   regulations: defaultRegulations,
   payments: defaultPayments,

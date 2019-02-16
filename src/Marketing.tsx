@@ -19,9 +19,18 @@ export default function MarketingComponent({
             onChange({ ...marketing, riskLevel: ev.target.value as RiskLevel })
           }
         >
-          {["Any Affiliate", "Trusted Affiliates", "Media Buying"].map(l => (
+          {[
+            "Undefined",
+            "Any Affiliate",
+            "Trusted Affiliates",
+            "Media Buying"
+          ].map(l => (
             <option key={l} value={l}>
-              {l == "Any Affiliate" ? l + " is OK" : "Only " + l}
+              {l == "Undefined"
+                ? "-"
+                : l == "Any Affiliate"
+                ? l + " is OK"
+                : "Only " + l}
             </option>
           ))}
         </select>

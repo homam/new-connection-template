@@ -8,6 +8,7 @@ export type ConsentPageCustomizability =
   | "DynamicImage"
   | "HTMLTemplate";
 export type FlowHosting =
+  | { tag: "Nothing" }
   | { tag: "FullyHostedByUs" }
   | { tag: "PartiallyHostedByUs"; value: ConsentPageCustomizability }
   | { tag: "FullyHostedByGateway"; value: ConsentPageCustomizability }
@@ -32,10 +33,12 @@ export type Flow = {
 };
 
 export type Flows =
+  | { tag: "Nothing" }
   | { tag: "AllMNOsHaveTheSameFlow"; value: Flow }
   | { tag: "SomeMNOsHaveDifferentFlows"; value: IHash<Flow> };
 
+export const defaultFlows: Flows = { tag: "Nothing" };
 export const defaultFlow: Flow = {
   flowTypes: {},
-  hosting: { tag: "FullyHostedByUs" }
+  hosting: { tag: "Nothing" }
 };

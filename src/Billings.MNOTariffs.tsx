@@ -35,7 +35,9 @@ export default function MNOTariffsComponent({
                     value:
                       tariffs.tag == "AllMNOsHaveSimilarTariffs"
                         ? tariffs.value
-                        : tariffs.value[operators[0]] || defaultTariffs
+                        : tariffs.tag == "SomeMNOsHaveDifferentTariffs"
+                        ? tariffs.value[operators[0]] || defaultTariffs
+                        : defaultTariffs
                   })
                 : null
             }
@@ -82,7 +84,7 @@ export default function MNOTariffsComponent({
             })
           }
         />
-      ) : (
+      ) : tariffs.tag == "SomeMNOsHaveDifferentTariffs" ? (
         operators.map(o => (
           <fieldset className="indent-1" key={o}>
             <legend align="right">{o}</legend>
@@ -98,7 +100,7 @@ export default function MNOTariffsComponent({
             />
           </fieldset>
         ))
-      )}
+      ) : null}
     </div>
   );
 }

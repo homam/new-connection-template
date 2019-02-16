@@ -1,9 +1,5 @@
 import * as React from "react";
-import {
-  IHash,
-  Billings,
-  defaultBasicsManagedByGateway
-} from "./_Types.Billings";
+import { IHash, Billings } from "./_Types.Billings";
 import Field from "./Field";
 import MNOTariffs from "./Billings.MNOTariffs";
 
@@ -125,7 +121,13 @@ function BillingMnagementComponent({ billings, setBillings }: IBillingProps) {
                     ...billings,
                     basics: {
                       ...billings.basics,
-                      management: defaultBasicsManagedByGateway
+                      management: {
+                        tag: "ByGatewayOrMNO",
+                        value: {
+                          realTimeOrDelayed: "Undefined",
+                          visibility: "Undefined"
+                        }
+                      }
                     }
                   })
                 : null
@@ -153,6 +155,7 @@ function BillingMnagementComponent({ billings, setBillings }: IBillingProps) {
                         realTimeOrDelayed: ev.target.value as
                           | "RealTime"
                           | "Delayed"
+                          | "Undefined"
                       }
                     }
                   }
@@ -160,6 +163,7 @@ function BillingMnagementComponent({ billings, setBillings }: IBillingProps) {
               }
               value={billings.basics.management.value.realTimeOrDelayed}
             >
+              <option value="Undefined">-</option>
               <option value="RealTime">We have Real-Time Notifications</option>
               <option value="Delayed">We have Delayed Notifications</option>
             </select>
@@ -182,6 +186,7 @@ function BillingMnagementComponent({ billings, setBillings }: IBillingProps) {
                           | "SuccessOnly"
                           | "BothSuccessFailure"
                           | "NoUsefulNotofications"
+                          | "Undefined"
                       }
                     }
                   }
@@ -189,6 +194,7 @@ function BillingMnagementComponent({ billings, setBillings }: IBillingProps) {
               }
               value={billings.basics.management.value.visibility}
             >
+              <option value="Undefined">-</option>
               <option value="BothSuccessFailure">
                 We receive both Success and Failure notifications
               </option>
