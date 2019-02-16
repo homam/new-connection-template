@@ -88,7 +88,7 @@ export default function MNOTariffsComponent({
             <legend align="right">{o}</legend>
             <ServicesTariffsComponent
               services={services}
-              tariffs={tariffs.value[o]}
+              tariffs={tariffs.value[o] || defaultTariffs}
               onChange={t =>
                 onChange({
                   tag: "SomeMNOsHaveDifferentTariffs",

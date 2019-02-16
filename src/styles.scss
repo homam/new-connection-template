@@ -216,5 +216,33 @@ input[type="file"] {
   .buttons-bar, button {
     display: none;
   }
+  
+  .field select, .field input {
+    border: none;
+  }
 
+  select {
+    border: 0;
+    background: transparent;
+    -webkit-appearance: none;
+  }
+
+  input, select {
+    color: blue;
+    border: none;
+  }
+
+  input:checked + label {
+    color: blue;
+  }
+}
+
+div#connection-name {
+  position: fixed;
+  transform:  rotate(-90deg);
+  height: 100vh;
+  width: 100vh;
+  font-size: 224%;
+  text-align: center;
+  color: #cac8c8;
 }

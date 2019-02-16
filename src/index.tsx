@@ -11,6 +11,7 @@ import Regulations from "./Regulations";
 import Payments from "./Payments";
 import Marketing from "./Marketing";
 import * as FileSaver from "file-saver";
+import { GoogleLogin } from "react-google-login";
 import { countries } from "countries-list";
 const allCountries = Object.keys(countries)
   .filter(k => k != "GS")
@@ -18,6 +19,15 @@ const allCountries = Object.keys(countries)
   .sort((a, b) => a.name.localeCompare(b.name));
 
 import "./styles.scss";
+
+function onSignIn(googleUser) {
+  console.log(googleUser);
+  var profile = googleUser.getBasicProfile();
+  console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log("Name: " + profile.getName());
+  console.log("Image URL: " + profile.getImageUrl());
+  console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
 
 function fromHash() {
   if (!!location.hash && location.hash.length > 10) {
@@ -69,6 +79,16 @@ function App() {
       }}
     >
       <section className="buttons-bar">
+        {/* <GoogleLogin
+          clientId="886331529423-evtmqflmgs4ikhq1h2h8pks795tfnsi2.apps.googleusercontent.com"
+          render={renderProps => (
+            <button onClick={renderProps.onClick}>Login</button>
+          )}
+          buttonText="Login"
+          isSignedIn={true}
+          onSuccess={onSignIn}
+          onFailure={(...args) => console.log("Login Failed", ...args)}
+        /> */}
         <input
           id="load_file"
           type="file"
